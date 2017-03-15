@@ -56,7 +56,8 @@ public class SocanJsonBuilder {
 		String promoter_telephone = "4164458700";
 		Set <Composition> allCompositions = new HashSet<Composition>();		
 		allCompositions.add(new Composition("SOCAN", "John Doe"));
-		allCompositions.add(new Composition("HACKATHON", "John Doe"));
+		allCompositions.add(new Composition("HACKATHON", "John Doe"));		
+		//End of populating things ^^^^^//
 
 		JsonBuilderFactory factory = Json.createBuilderFactory(null);
 		JsonObjectBuilder compBuilder = factory.createObjectBuilder();
