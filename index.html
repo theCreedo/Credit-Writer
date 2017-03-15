@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 
   <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'>
 <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700'>
@@ -61,15 +61,52 @@
     <div class="container" ng-app="myApp" ng-controller="newPlaceCtrl">
     
     <h1>Enter Information</h1>
-      <form id="form">
+
+      <div id="list"></div>
+
+      <script>
+function ConvertFormToJSON(form){
+      var array = jQuery(form).serializeArray();
+      var json = {};
+      
+      jQuery.each(array, function() {
+        json[this.name] = this.value || '';
+      });
+      
+      return json;
+    }
+    
+    jQuery(document).on('ready', function() {
+      jQuery('form#add-new-item').bind('submit', function(event){
+        event.preventDefault();
         
-        <input id="city" type="text" name="id" placeholder="Dallas" />
-        <br>
+        var form = this;
+        var json = ConvertFormToJSON(form);
+        var tbody = jQuery('#list > tbody');
 
-        <input id="hashtag" type="text" name="id" placeholder="#hash" />
-        <br>
+        $.ajax({
+          type: "POST",
+          url: "submit.php",
+          data: json,
+          dataType: "json"
+        }).fail(function() { 
+          alert("Failed to add"); 
+        });
 
-        <select name="states">
+        return true;
+      });
+    });
+      </script>
+
+      <form id="add-new-item">
+
+        <label for="new-city">City:</label>
+          <input id="new-city" name="new-task-name" type="text" required>
+          <label for="new-hashtag">Hashtag:</label>
+          <input id="new-hashtag" name="new-task-date" type="text" required>          
+          <br/>
+          <label for="new-state">State:</label>
+          <select name="states">
             <option value="AL">AL</option>
             <option value="AK">AK</option>
             <option value="AS">AS</option>
@@ -129,75 +166,10 @@
             <option value="WV">WV</option>
             <option value="WI">WI</option>
             <option value="WY">WY</option>
-        </select>
+          </select>
         <br>
-        
-        <input id="input" type="submit" name="submit" value="Post It" />
-
+        <input id="input" type="submit" name="submit" value="Add New" />
       </form>
-    
-      <div id="result"></div>
-
-      <script>
-      $.fn.formToJSON = function() {
-        var objectGraph = {};
-        function add(objectGraph, name, value) {
-          if(name.length == 1) {
-            //if the array is now one element long, we're done
-            objectGraph[name[0]] = value;
-          }
-          else {
-            //else we've still got more than a single element of depth
-            if(objectGraph[name[0]] == null) {
-              //create the node if it doesn't yet exist
-              objectGraph[name[0]] = {};
-            }
-          //recurse, chopping off the first array element
-            add(objectGraph[name[0]], name.slice(1), value);
-          }
-        };
-        //loop through all of the input/textarea elements of the form
-        //this.find('input, textarea').each(function() {
-        $(this).children('input, textarea').each(function() {
-          //ignore the submit button
-          if($(this).attr('name') != 'submit') {
-            //split the dot notated names into arrays and pass along with the value
-            add(objectGraph, $(this).attr('name').split('.'), $(this).val());
-          }
-        });
-        return JSON.stringify(objectGraph);
-      };
-      $.ajaxSetup({
-        contentType: "application/json; charset=utf-8",
-        dataType: "json"
-      });
-      $(document).ready(function(){
-        $('#input').click(function() {
-          var send = $("#form").formToJSON();
-          $.ajax({
-            url: "http://js/j.json",
-            type: "POST",
-            data: send,
-            error: function(xhr, error) {
-              alert('Error!  Status = ' + xhr.status + ' Message = ' + error);
-            },
-            success: function(data) {
-              //have you service return the created object
-              var items = [];
-              items.push('<table cellpadding="4" cellspacing="4">');
-              items.push('<tr><td>ID</td><td>' + data.id + '</td></tr>');
-              items.push('<tr><td>Meh Feh</td><td>' + data.meh.feh + '</td></tr>');
-              items.push('<tr><td>Meh Peh</td><td>' + data.meh.peh + '</td></tr>');
-              //etc
-              items.push('</table>');  
-              $('#result').html(items.join(''));
-            }
-          });
-          return false; 
-          alert(items);
-        });
-      });
-    </script>
 
     <div id="map"></div>
   </section>
