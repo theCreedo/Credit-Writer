@@ -1,3 +1,126 @@
+/* Team Member CSS 
+===========================*/
+
+h1.team-h1 {
+  margin: 0;
+  position: absolute;
+  top: -16px;
+  text-align: center;
+  left: 40%;
+  font-family: georgia;
+  font-style: italic;
+  background-color: white;
+  padding: 0px 20px;
+  color: #222; 
+}
+
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.cf {
+    *zoom: 1;
+}
+
+.team-container {
+  max-width: 1000px;
+  margin: auto;
+  border-top: 1px #e9e9e9 solid;
+  border-bottom: 1px #e9e9e9 solid;
+  padding-top: 5em;
+  padding-bottom: 5em;
+  margin-top: 3em;
+  position: relative;
+}
+
+.team-member {
+  width: 16%;
+  float: left;
+  text-align: center;
+  margin-right: 5%;
+}
+
+.team-member:last-child {margin-right: 0;}
+
+
+.team-member span,
+.team-member h3 {
+  max-width: 200px;
+  font-family: sans-serif;
+  letter-spacing: -1px;
+}
+
+.team-member h3 {
+  color: #ad0000;
+}
+
+.email {
+  color: #EA2678;
+  
+}
+
+.team-member span {
+  display: block;
+ 
+}
+.team-photo {
+  border-radius: 50%;
+  text-align: center;
+  margin: auto;
+  max-width: 100%;
+  height: auto;
+}
+
+
+.team-photo:hover {
+  transform: scale(0.9);
+  cursor: pointer;
+}
+
+
+/* code for phone layout */
+@media (max-width:850px){
+  .team-member {
+    width:25%;
+    margin-left: 4%;
+    margin-right: 4%;
+    margin-bottom: 40px;
+    
+  }
+  
+}
+
+
+
+@media (max-width:650px){
+  .team-member {
+    float: none;
+    display: block;
+    margin: 50px auto;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .team-member h3,
+  .team-member span {
+    margin: 15px auto;
+  }
+}
+
+
+/* ENDS Team Member CSS 
+===========================*/
+
 a, .sec-contact .btn {
   -webkit-transition: all .25s;
   transition: all .25s;
@@ -28,7 +151,11 @@ input[type=submit]:hover {
     background-color: #ad0000;
 }
 
-
+.twitter, .socanlogo, .mapquest{
+  float: left;
+  width: 33%;
+  padding: 10px;
+}
 
 #map { 
     height: 400px;
@@ -160,7 +287,7 @@ hr {
 .sec-main {
   position: relative;
   height: 560px;
-  background-image: url('https://img1.goodfon.su/wallpaper/big/1/3e/mosaic-black-dots-square-dark.jpg');
+  background-image: url('https://cdn.shapechef.com/blog/stars.png');
   background-position: center 0;
     animation: bg 2s linear infinite;
     overflow: hodden;
