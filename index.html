@@ -74,13 +74,16 @@ function getInfo(){
       message: function(message) {
         console.log(message);
 
-        //$("#musicTable ul").append('<li>'message.song + ' ' message.artist + ' ' + message.location</li>');
+        $("#musicTable ul").append('<li>'message.song + ' ' message.artist + ' ' + message.location</li>');
           // handle message
       },
       presence: function(presenceEvent) {
           // handle presence
       }
   });
+     pubnub.subscribe({
+        channels: ['server_starter'] 
+    });
 }
 function publish(data) {
    
