@@ -54,7 +54,63 @@
   </header>
 
   <section id="home" class="sec-main">
-    <h1 class="main-heading">Credit Writers</h1>          
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Credit Writer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.5.0.js"></script>
+
+  <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'>
+<link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700'>
+<link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'>
+
+      <link rel="stylesheet" href="css/style.css">
+
+  
+</head>
+
+<body>
+  <div class="wrapper">
+  <header role="header">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse" role="button">
+            <span class="sr-only"></span>
+            
+            <span class="icon-bar"></span>
+            
+            <span class="icon-bar"></span>
+            
+            <span class="icon-bar"></span>
+          </button>
+
+          <a href="#" class="navbar-brand">CW</a>
+        </div>
+
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav navbar-right js-nav">
+            <li><a href="#home">Home</a></li>
+
+            <li><a href="#about">Start</a></li>
+
+            <li><a href="#services">About</a></li>
+
+            <li><a href="#contact">Contact</a></li>
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <section id="home" class="sec-main">
+    <h1 class="main-heading">Credit Writer</h1>          
 </div>
   </section>
 
@@ -64,40 +120,39 @@
     <h1>Get Started!</h1>
 
     <script>
-
 function getInfo(){
   var pubnub = new PubNub({
         subscribeKey : 'sub-c-0a7113d8-095b-11e7-b09b-0619f8945a4f'
-  })
-
-
-
+  });
   pubnub.addListener({
       status: function(statusEvent) {
       },
       message: function(message) {
         console.log(message);
+        $("#musicTable ul").append('<li>' + message.song + ' ' + message.artist + ' ' + message.location + '</li>');
           // handle message
       },
       presence: function(presenceEvent) {
           // handle presence
       }
+  });
+     pubnub.subscribe({
+        channels: ['server_sender'] 
+    });
+}
 function publish(data) {
    
     pubnub = new PubNub({
         publishKey : 'pub-c-74cba35d-fcf7-4821-9932-a6a327f0a018',
         subscribeKey : 'sub-c-0a7113d8-095b-11e7-b09b-0619f8945a4f'
     })
-  
     var publishConfig = {
           channel : "credit_writer",
           message : data
       }
-
       pubnub.publish(publishConfig,function(status, response){
         console.log(status,response);
       })
-
       
       pubnub.addListener({
         message: function(m) {
@@ -127,7 +182,6 @@ function publish(data) {
     pubnub.subscribe({
         channels: ['credit_writer'] 
     });
-
 };
     function ConvertFormToJSON(form){
         var array = jQuery(form).serializeArray();
@@ -147,14 +201,10 @@ function publish(data) {
         event.preventDefault();
         
         var form = this;
-
         var json = ConvertFormToJSON(form);
         var tbody = jQuery('#list > tbody');
         console.log(json);
-
-
         publish(json);
-
         /*$.ajax({
           type: "GET",
           url: "/getjson.php",
@@ -169,14 +219,13 @@ function publish(data) {
         }).fail(function() { 
           alert("Failed to add them"); 
         });
-
         return true;
         });
       });*/
+      })
+    });
       </script>
-
       <form id="add-new-item">
-
           <label for="city">City:</label><br>
           <input id="city" name="city" type="text" required><br>
         
@@ -248,27 +297,20 @@ function publish(data) {
         <br>
         <input id="input" type="submit" name="submit" value="SEARCH" />
       </form>
-
-    <div id="musicTable"></div>
-
+      <div id="musicTable"><ul></ul></div>
   </section>
   
   <section id="services" class="sec-services">
     <div class="container">
       <h1>What We Do</h1>
-
       <hr />
-
       <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
           <p>We used the Twitter API to access tweets. That data is then parsed and analized so we can send data to SoCan so they can know where the concert is and for what song theyre getting credit for.</p>
         </div>
       </div>
-
       <h1>APIs Used</h1>
-
       <hr />
-
       <div id="twitter">
         <a href="twitrer.com" target="_blank">
         <img class="twitter" border="0" src="http://www.statisticbrain.com/wp-content/uploads/2015/10/twitter-company-statistics.jpg"/></a>
@@ -278,41 +320,30 @@ function publish(data) {
         
         <a href="mapquest.com">
         <img class="mapquest" border="0" src="http://www.blogcdn.com/blog.aol.com/media/2012/10/mapquestlogolarge.png"/></a>
-
         <a href="pubnub.com">
         <img class="pubnub" border="0" src="https://brandfolder.com/pubnub/logo/pubnub-primary-logo.png"/></a>
       </div>​
-
     </div>
   </section>
-
   <section id="contact" class="sec-contact">
     <div class="container">
       <h1>Contact</h1>
-
       <hr />
-
       <div class="row">
         <div class="col-sm-4 col-sm-offset-4">
           <form class="center-block" action="#" method="post">
             <div class="form-group">
               <label class="sr-only" for="inputName">Full name</label>
-
               <input id="inputName" class="form-control" type="text" placeholder="Name" required />
             </div>
-
             <div class="form-group">
               <label for="inputMail" class="sr-only">Email Address</label>
-
               <input id="inputMail" class="form-control" type="email" placeholder="email@mail.com" required />
             </div>
-
             <div class="form-group">
               <label for="inputMessage" class="sr-only">Your Message</label>
-
               <textarea id="inputMessage" class="form-control" name="message" cols="30" rows="8" required></textarea>
             </div>
-
             <div class="form-group">
               <button class="btn btn-default center-block" type="submit" value="Hire me">Contact</button>
             </div>
@@ -321,26 +352,21 @@ function publish(data) {
       </div>
     </div>
   </section>
-
   <footer id="footer">
     <div class="container">
       <ul class="soc-media-ul">
         <li>
           <a href="http://twitter.com/AlexDevero" class="fa fa-twitter" target="_blank"></a>
         </li>
-
         <li>
           <a href="https://plus.google.com/u/0/+AlexDevero" class="fa fa-google-plus" target="_blank"></a>
         </li>
-
         <li>
           <a href="http://cz.linkedin.com/pub/alex-devero/38/262/70/" class="fa fa-linkedin" target="_blank"></a>
         </li>
-
         <li>
           <a href="https://www.behance.net/d3v3r0" class="fa fa-behance" target="_blank"></a>
         </li>
-
         <li>
           <a href="mailto:example@mail.com" class="fa fa-envelope"></a>
         </li>
@@ -351,8 +377,6 @@ function publish(data) {
 </div>
   <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js'></script>
-
     <script src="js/index.js"></script>
-
 </body>
 </html>
