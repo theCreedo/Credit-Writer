@@ -86,7 +86,8 @@ class MultipartUtility {
         writer.append("Content-Type: application/json").append(
                 LINE_FEED);
         writer.append(LINE_FEED);
-        writer.append(value.toString()).append(LINE_FEED);
+        System.out.println(value.toString().replaceAll("\\\\", ""));
+        writer.printf("%s",value.toString()).append(LINE_FEED);
         writer.flush();
     }
 

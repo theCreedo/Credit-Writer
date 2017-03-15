@@ -37,6 +37,7 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonBuilderFactory;
 import javax.json.JsonObjectBuilder;
+import javax.json.JsonValue;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -56,7 +57,7 @@ public class Concert {
 	static ConfigurationBuilder builder = new ConfigurationBuilder();
 	static ArrayList<String> setList = new ArrayList<String>();
 	static Twitter twitter;
-
+	static boolean addedToList = false;
 	Concert(){
 		builder =  new ConfigurationBuilder();
 		//city = null;
@@ -116,7 +117,8 @@ public class Concert {
 			//TODO send in the state and state to mapquest api
 			//TODO set latitude and longitude to the return from the getLat and getLong methods
 			for(Status tweet: tweets){
-
+				
+				addedToList = false;
 				check = false;
 
 				String[] location = tweet.getUser().getLocation().split(", ");
@@ -146,7 +148,6 @@ public class Concert {
 					System.out.println(latitude);
 					System.out.println(longitude + "\n");
 
-
 					String[] tokens = tweet.getText().split(" ");
 					String song = "";
 					for(String s: tokens){
@@ -156,7 +157,11 @@ public class Concert {
 						}
 					}
 					song = song.substring(0, song.length()-1);
-					setList.add(song);
+					if(!setList.contains(song))
+					{
+						addedToList = true;
+						setList.add(song);
+					}
 				}
 			}
 		}
@@ -169,8 +174,12 @@ public class Concert {
 		System.out.println(setList.toString());
 
 		if(!setList.isEmpty()){
-			sendMessageToServer();
 			sendMessageToWebsite();
+			if(addedToList){
+			sendMessageToServer();
+			
+			sendMessageToWebsite();
+			}
 		}
 	}
 
@@ -204,7 +213,6 @@ public class Concert {
 				System.out.println("pub status code: " + status.getStatusCode());
 			}
 		});
-
 	}
 	private static void sendMessageToWebsite() {
 		// TODO Auto-generated method stub
@@ -397,7 +405,6 @@ public class Concert {
 		value.addProperty("PROMOTER_POSTAL_CODE", promoter_postal_code);
 		value.addProperty("PROMOTER_COUNTRY", promoter_country);
 		value.addProperty("PROMOTER_TELEPHONE", promoter_telephone);
-		
 		value.addProperty("compositions", arrayBuilder.build().toString());    		  
 		//				value.build();
 		return value;
