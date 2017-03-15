@@ -54,6 +54,62 @@
   </header>
 
   <section id="home" class="sec-main">
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Credit Writer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.5.0.js"></script>
+
+  <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'>
+<link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700'>
+<link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'>
+
+      <link rel="stylesheet" href="css/style.css">
+
+  
+</head>
+
+<body>
+  <div class="wrapper">
+  <header role="header">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse" role="button">
+            <span class="sr-only"></span>
+            
+            <span class="icon-bar"></span>
+            
+            <span class="icon-bar"></span>
+            
+            <span class="icon-bar"></span>
+          </button>
+
+          <a href="#" class="navbar-brand">CW</a>
+        </div>
+
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav navbar-right js-nav">
+            <li><a href="#home">Home</a></li>
+
+            <li><a href="#about">Start</a></li>
+
+            <li><a href="#services">About</a></li>
+
+            <li><a href="#contact">Contact</a></li>
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <section id="home" class="sec-main">
     <h1 class="main-heading">Credit Writer</h1>          
 </div>
   </section>
@@ -73,16 +129,15 @@ function getInfo(){
       },
       message: function(message) {
         console.log(message);
-        //$("#musicTable ul").append('<li>'message.song + ' ' message.artist + ' ' + message.location</li>');
+        $("#musicTable ul").append('<li>' + message.song + ' ' + message.artist + ' ' + message.location + '</li>');
           // handle message
       },
       presence: function(presenceEvent) {
           // handle presence
       }
   });
-  
-       pubnub.subscribe({
-        channels: ['server_starter'] 
+     pubnub.subscribe({
+        channels: ['server_sender'] 
     });
 }
 function publish(data) {
@@ -91,7 +146,6 @@ function publish(data) {
         publishKey : 'pub-c-74cba35d-fcf7-4821-9932-a6a327f0a018',
         subscribeKey : 'sub-c-0a7113d8-095b-11e7-b09b-0619f8945a4f'
     })
-
     var publishConfig = {
           channel : "credit_writer",
           message : data
@@ -170,7 +224,6 @@ function publish(data) {
       });*/
       })
     });
-
       </script>
       <form id="add-new-item">
           <label for="city">City:</label><br>
