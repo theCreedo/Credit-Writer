@@ -1,7 +1,16 @@
 package sxsw2017;
 
+import java.util.HashMap;
+import java.util.Map;
 
-public class Concert {
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonBuilderFactory;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import javax.json.JsonValue;
+
+public class SocanJsonBuilder {
 	public static void main (String [] cheese){
 		System.out.println("Hello, World!");
 		
@@ -52,4 +61,3 @@ public class Concert {
 		System.out.println(value.toString());
 	}
 }
-
