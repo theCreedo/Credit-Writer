@@ -13,6 +13,8 @@ import twitter4j.conf.ConfigurationBuilder;
 
 import java.util.logging.*;
 
+import java.io.FileReader;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
