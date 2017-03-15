@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.5.0.js"></script>
 
   <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'>
 <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700'>
@@ -63,6 +64,54 @@
     <h1>Get Started!</h1>
 
     <script>
+
+function publish(data) {
+   
+    pubnub = new PubNub({
+        publishKey : 'pub-c-74cba35d-fcf7-4821-9932-a6a327f0a018',
+        subscribeKey : 'sub-c-0a7113d8-095b-11e7-b09b-0619f8945a4f'
+    })
+  
+    var publishConfig = {
+          channel : "credit_writer",
+          message : data
+      }
+
+      pubnub.publish(publishConfig,function(status, response){
+        console.log(status,response);
+      })
+
+      
+      pubnub.addListener({
+        message: function(m) {
+          // handle message
+          var channelName = m.channel; // The channel for which the message belongs
+          var channelGroup = m.subscription; // The channel group or wildcard subscription match (if exists)
+          var pubTT = m.timetoken; // Publish timetoken
+          var msg = m.message; // The Payload
+      },
+      presence: function(p) {
+          // handle presence
+          var action = p.action; // Can be join, leave, state-change or timeout
+          var channelName = p.channel; // The channel for which the message belongs
+          var occupancy = p.occupancy; // No. of users connected with the channel
+          var state = p.state; // User State
+          var channelGroup = p.subscription; //  The channel group or wildcard subscription match (if exists)
+          var publishTime = p.timestamp; // Publish timetoken
+          var timetoken = p.timetoken;  // Current timetoken
+          var uuid = p.uuid; // UUIDs of users who are connected with the channel
+      },
+      status: function(s) {
+          // handle status
+          console.log(s);
+      }
+    })      
+    console.log("Subscribing..");
+    pubnub.subscribe({
+        channels: ['credit_writer'] 
+    });
+
+};
     function ConvertFormToJSON(form){
         var array = jQuery(form).serializeArray();
         var json = {};
@@ -84,9 +133,12 @@
         var tbody = jQuery('#list > tbody');
         console.log(json);
 
+
+        publish(json);
+
         $.ajax({
-          type: "POST",
-          url: "/savesjson.php",
+          type: "GET",
+          url: "/getjson.php",
           data: {
             json: JSON.stringify(json)
           },
@@ -189,57 +241,9 @@
 
       <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
-          <p>We used the Twitter API to access tweets. That data is then parsed and analized so we can send data to SOCAN so they can know where the concert is and for what song theyre getting credit for.</p>
+          <p>We used the Twitter API to access tweets. That data is then parsed and analized so we can send data to SoCan so they can know where the concert is and for what song theyre getting credit for.</p>
         </div>
       </div>
-
-      <h1>TEAM</h1>
-
-      <hr />
-
-<section class="cf team-container">
-
-    <!-- member-->  
-    <div class="team-member">
-      <img class="team-photo" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/44742/profile/profile-512_2.jpg">
-      <h3>Sanat Sharma</h3>
-      <span>Worked on the backend</span>
-    </div>
-
-
-    <!-- member-->
-    <div class="team-member">
-    <img class="team-photo" src="https://raw.githubusercontent.com/theCreedo/theCreedo.github.io/master/images/blog-profile.png">
-      <h3>Eric Lee</h3>
-      <span>Worked on the backend</span>
-    </div>
-
-
-    <!-- member-->
-    <div class="team-member">
-    <img class="team-photo" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/44742/profile/profile-512_2.jpg">
-      <h3>Roberto Hernandez</h3>
-      <span>Worked on the frontend</span>
-    </div> 
-
-
-    <!-- member-->
-    <div class="team-member">
-    <img class="team-photo" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/44742/profile/profile-512_2.jpg">
-      <h3>ALberto Godinez</h3>
-      <span>Worked on the backend</span>
-    </div> 
-
-
-    <!-- member-->
-    <div class="team-member">
-    <img class="team-photo" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/44742/profile/profile-512_2.jpg">
-      <h3>Linda Xie</h3>
-      <span>Worked on the backend</span>
-    </div> 
-  
- </section>
-
 
       <h1>APIs Used</h1>
 
@@ -247,7 +251,7 @@
 
       <div id="images">
         <a href="twitrer.com" target="_blank">
-        <img class="twitter" border="0" src="http://www.statisticbrain.com/wp-content/uploads/2015/10/twitter-company-statistics.jpg"/></a>
+        <img class="twitter" border="0" src="http://vignette4.wikia.nocookie.net/simpsons/images/1/11/Twitter_bird_icon.png/revision/latest?cb=20111228065136&format=original"/></a>
         
         <a href="soan.com" target="_blank">
         <img class="socanlogo" border="0" alt="socan" src="https://www.socan.ca/files/images/SOCAN-logo-news-item-560-EN.png"/></a>
