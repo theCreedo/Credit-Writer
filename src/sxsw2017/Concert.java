@@ -17,6 +17,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.gson.JsonElement;
+import com.pubnub.api.PNConfiguration;
+import com.pubnub.api.PubNub;
+import com.pubnub.api.callbacks.SubscribeCallback;
+import com.pubnub.api.enums.PNLogVerbosity;
+import com.pubnub.api.models.consumer.PNStatus;
+import com.pubnub.api.models.consumer.pubsub.PNMessageResult;
+import com.pubnub.api.models.consumer.pubsub.PNPresenceEventResult;
+
 import java.net.*;
 import java.io.*;
 
@@ -25,21 +34,22 @@ public class Concert {
 			, "dxq40x9zV4gqUHxZflfqT975pEFpUxardfyRinuxi96S7");*/
 	//final static Twitter twitter = new TwitterFactory().getInstance(accessToken);
 	//final static Twitter twitter = new TwitterFactory().getInstance(accessToken);
-	private static String city = "";
-	private static String state = "";
-	private static String hashtag = "";
+	//private static String city = "";
+	//private static String state = "";
+	//private static String hashtag = "";
 	private static double latitude = 0;
 	private static double longitude = 0;
 	static ConfigurationBuilder builder = new ConfigurationBuilder();
 	static ArrayList<String> setList = new ArrayList<String>();
+	static Twitter twitter;
 
 	Concert(){
 		builder =  new ConfigurationBuilder();
-		city = null;
-		state = null;
+		//city = null;
+		//state = null;
 		latitude = 0;
 		longitude = 0;
-		hashtag = null;
+		//hashtag = null;
 		setList = new ArrayList<String>();
 	}
 	public static void main(String[] args)throws IOException{
@@ -50,25 +60,56 @@ public class Concert {
 		builder.setOAuthAccessTokenSecret("dxq40x9zV4gqUHxZflfqT975pEFpUxardfyRinuxi96S7");
 		Configuration configuration = builder.build();
 		TwitterFactory factory = new TwitterFactory(configuration);
-		Twitter twitter = factory.getInstance();
+		twitter = factory.getInstance();
 
 
 	//	URL url = new URL("http://www.oracle.com/");
 
 	//	makeConnection(url);
 		
-		createJsonString();
+		//createJsonString();
 		
+		pubNubConnectivity();
 		
-		
-		if(hashtag == null)
-			throw new IllegalArgumentException("0");
 	
 //		System.out.println("HEREEEE");
 		
 //		System.out.println(hashtag);
 		
-		hashtag = "#testing";
+		
+				
+/*		String FILE_PATH_NAME = "";
+    	String JSON_POST_REQUEST = "";
+    	String FILE_NAME = "";
+        String charset = "UTF-8";
+        File uploadFile = new File(FILE_PATH_NAME);
+        String requestURL = "https://api.socan.ca/sandbox/SubmitNLMP?apiKey=l7xx50540a4a671342868a65f8a8f4a71d7a";
+
+        try {
+            MultipartUtility multipart = new MultipartUtility(requestURL, charset);
+
+            System.out.println("RIP");
+
+            multipart.addJsonField("nlmp", JSON_POST_REQUEST);
+            multipart.addFilePart("file", uploadFile);
+            multipart.addFormField("fileName", FILE_NAME);
+
+            List<String> response = multipart.finish();
+
+            System.out.println("SERVER REPLIED:");
+
+            for (String line : response) {
+                System.out.println(line);
+            }
+        } catch (IOException ex) {
+            System.err.println(ex);
+        }*/
+	}
+
+	static void fetchTwitter(String hashtag, String city, String state){
+		
+		if(hashtag == null)
+			throw new IllegalArgumentException("0");
 		
 		try {
 			//create a query to search twitter with the specific hashtag
@@ -88,7 +129,7 @@ public class Concert {
 			/*	System.out.println(tweet.getUser().getScreenName());
 				System.out.println(tweet.getText());
 				System.out.println(tweet.getUser().getLocation());*/
-				System.out.println(tweet.getText());
+				//System.out.println(tweet.getText());
 				check = false;
 				
 				//System.out.println(tweet.getText());
@@ -137,8 +178,52 @@ public class Concert {
 		}
 		
 		System.out.println(setList.toString());
-	}
 
+	}
+	
+	private static void pubNubConnectivity() {
+		// TODO Auto-generated method stub
+		PNConfiguration pnConfiguration = new PNConfiguration();
+		// subscribeKey from admin panel
+		pnConfiguration.setSubscribeKey("sub-c-0a7113d8-095b-11e7-b09b-0619f8945a4f"); // required
+		// publishKey from admin panel (only required if publishing)
+		pnConfiguration.setPublishKey("pub-c-74cba35d-fcf7-4821-9932-a6a327f0a018");
+		pnConfiguration.setSecure(false);
+			
+		PubNub pubnub = new PubNub(pnConfiguration);
+		
+		pubnub.addListener(new SubscribeCallback(){
+
+			@Override
+			public void message(PubNub arg0, PNMessageResult arg1) {
+				// TODO Auto-generated method stub
+				JsonElement message = arg1.getMessage();
+				String state = message.getAsJsonObject().get("state").getAsString().toLowerCase();
+				String city = message.getAsJsonObject().get("city").getAsString().toLowerCase();
+				String hashtag = message.getAsJsonObject().get("hashtag").getAsString().toLowerCase();
+				
+				fetchTwitter(hashtag, city, state);
+			}
+			
+
+			@Override
+			public void presence(PubNub arg0, PNPresenceEventResult arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void status(PubNub arg0, PNStatus arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		
+		pubnub.subscribe()
+		    .channels(Arrays.asList("credit_writer")) // subscribe to channels information
+		    .execute();
+	}
 	private static void createJsonString() throws IOException {
 		// TODO Auto-generated method stub
 		BufferedReader in = new BufferedReader(
@@ -150,7 +235,7 @@ public class Concert {
 		
 		//System.out.println(result.toString());
 		
-		parseJson(result.toString());
+	//	parseJson(result.toString());
 	}
 	public static void makeConnection(URL url) throws IOException{
 		URLConnection yc = url.openConnection();
@@ -165,7 +250,7 @@ public class Concert {
 		in.close();
 	}	
 
-	private static String parseJson(String jsonStr)  {
+	/*private static String parseJson(String jsonStr)  {
 		Logger log = Logger.getLogger(Concert.class.getName());
 
 		if(jsonStr!= null) {
@@ -176,10 +261,10 @@ public class Concert {
 				city = jsonObj.getString("city").toLowerCase();
 				hashtag = jsonObj.getString("hashtag");
 				
-/*				System.out.println("Hashtag: " + hashtag);
+				System.out.println("Hashtag: " + hashtag);
 				System.out.println("City: " + city);
 				System.out.println("State: " + state);
-*/
+
 				
 			}catch (final JSONException e) {
 				log.setLevel(Level.SEVERE);
@@ -188,6 +273,6 @@ public class Concert {
 			}
 		}
 		return null;
-	}
+	}*/
 
 }
