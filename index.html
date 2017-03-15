@@ -80,6 +80,10 @@ function getInfo(){
           // handle presence
       }
   });
+  
+       pubnub.subscribe({
+        channels: ['server_starter'] 
+    });
 }
 function publish(data) {
    
