@@ -1,7 +1,6 @@
 package sxsw2017;
 
 import java.io.BufferedReader;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,6 +13,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.gson.JsonObject;
 
 /**
  * This utility class provides an abstraction layer for sending multipart HTTP
@@ -45,13 +46,13 @@ class MultipartUtility {
 
         URL url = new URL(requestURL);
         httpConn = (HttpURLConnection) url.openConnection();
-        httpConn.setUseCaches(true);
+        httpConn.setUseCaches(false);
         httpConn.setDoOutput(true); // indicates POST method
         httpConn.setDoInput(true);
+        httpConn.setRequestMethod("POST");
         httpConn.setRequestProperty("Content-Type",
                 "multipart/form-data; boundary=" + boundary);
         outputStream = httpConn.getOutputStream();
-        System.out.println("RIP");
         writer = new PrintWriter(new OutputStreamWriter(outputStream, charset),
                 true);
     }
@@ -78,14 +79,14 @@ class MultipartUtility {
      * @param name field name
      * @param value field value
      */
-    public void addJsonField(String name, String value) {
+    public void addJsonField(String name, JsonObject value) {
         writer.append("--" + boundary).append(LINE_FEED);
         writer.append("Content-Disposition: form-data; name=\"" + name + "\"")
                 .append(LINE_FEED);
-        writer.append("Content-Type: type=application/json").append(
+        writer.append("Content-Type: application/json").append(
                 LINE_FEED);
         writer.append(LINE_FEED);
-        writer.append(value).append(LINE_FEED);
+        writer.append(value.toString()).append(LINE_FEED);
         writer.flush();
     }
 
