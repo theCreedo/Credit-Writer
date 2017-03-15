@@ -81,16 +81,24 @@ function ConvertFormToJSON(form){
         event.preventDefault();
         
         var form = this;
+
         var json = ConvertFormToJSON(form);
         var tbody = jQuery('#list > tbody');
+        console.log(json);
 
         $.ajax({
           type: "POST",
-          url: "submit.php",
-          data: json,
+          url: "/savesjson.php",
+          data: {
+            json: JSON.stringify(json)
+          },
           dataType: "json"
+        }).always(function() { 
+          tbody.append('<tr><th scope="row" style="background-color:' + form['hashtag'].value + 
+            '"><input type="checkbox" /></th><td>' + form['city'].value +
+            '</td><td>' + form['state'].value + '</td><td>'); 
         }).fail(function() { 
-          alert("Failed to add"); 
+          alert("Failed to add them"); 
         });
 
         return true;
@@ -100,13 +108,15 @@ function ConvertFormToJSON(form){
 
       <form id="add-new-item">
 
-        <label for="new-city">City:</label>
-          <input id="new-city" name="new-task-name" type="text" required>
+          <label for="city">City:</label>
+          <input id="city" name="city" type="text" required>
+          
           <label for="new-hashtag">Hashtag:</label>
-          <input id="new-hashtag" name="new-task-date" type="text" required>          
+          <input id="hashtag" name="hashtag" type="text" required>          
           <br/>
-          <label for="new-state">State:</label>
-          <select name="states">
+          
+          <label for="state">State:</label>
+          <select name="state">
             <option value="AL">AL</option>
             <option value="AK">AK</option>
             <option value="AS">AS</option>
