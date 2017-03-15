@@ -88,7 +88,7 @@ public class Concert {
 			/*	System.out.println(tweet.getUser().getScreenName());
 				System.out.println(tweet.getText());
 				System.out.println(tweet.getUser().getLocation());*/
-				//System.out.println(tweet.getUser().getLocation());
+				System.out.println(tweet.getText());
 				check = false;
 				
 				//System.out.println(tweet.getText());
