@@ -41,9 +41,9 @@
           <ul class="nav navbar-nav navbar-right js-nav">
             <li><a href="#home">Home</a></li>
 
-            <li><a href="#about">About</a></li>
+            <li><a href="#about">Start</a></li>
 
-            <li><a href="#services">Services</a></li>
+            <li><a href="#services">About</a></li>
 
             <li><a href="#contact">Contact</a></li>
 
@@ -66,42 +66,22 @@
     <script>
 
 function getInfo(){
-  console.log("got to info");
-  var pubnub = PubNub({
+  var pubnub = new PubNub({
         subscribeKey : 'sub-c-0a7113d8-095b-11e7-b09b-0619f8945a4f'
   })
 
-  pubnub.subscribe({
-    channels: ['server_sender'],
-    withPresence: true // also subscribe to presence instances.
-  });
+
 
   pubnub.addListener({
-    message: function(m) {
+      status: function(statusEvent) {
+      },
+      message: function(message) {
+        console.log(message);
           // handle message
-          var channelName = m.channel; // The channel for which the message belongs
-          var channelGroup = m.subscription; // The channel group or wildcard subscription match (if exists)
-          var pubTT = m.timetoken; // Publish timetoken
-          var msg = m.message; // The Payload
-          console.log("This is the message from the java channel: \n" + msg);
       },
-      presence: function(p) {
+      presence: function(presenceEvent) {
           // handle presence
-          var action = p.action; // Can be join, leave, state-change or timeout
-          var channelName = p.channel; // The channel for which the message belongs
-          var occupancy = p.occupancy; // No. of users connected with the channel
-          var state = p.state; // User State
-          var channelGroup = p.subscription; //  The channel group or wildcard subscription match (if exists)
-          var publishTime = p.timestamp; // Publish timetoken
-          var timetoken = p.timetoken;  // Current timetoken
-          var uuid = p.uuid; // UUIDs of users who are connected with the channel
-      },
-      status: function(s) {
-          // handle status
-          console.log(s);
       }
-  })
-}
 function publish(data) {
    
     pubnub = new PubNub({
@@ -269,7 +249,8 @@ function publish(data) {
         <input id="input" type="submit" name="submit" value="SEARCH" />
       </form>
 
-    <div id="map"></div>
+    <div id="musicTable"></div>
+
   </section>
   
   <section id="services" class="sec-services">
@@ -288,15 +269,18 @@ function publish(data) {
 
       <hr />
 
-      <div id="images">
+      <div id="twitter">
         <a href="twitrer.com" target="_blank">
-        <img class="twitter" border="0" src="http://vignette4.wikia.nocookie.net/simpsons/images/1/11/Twitter_bird_icon.png/revision/latest?cb=20111228065136&format=original"/></a>
+        <img class="twitter" border="0" src="http://www.statisticbrain.com/wp-content/uploads/2015/10/twitter-company-statistics.jpg"/></a>
         
-        <a href="soan.com" target="_blank">
+        <a href="socan.com" target="_blank">
         <img class="socanlogo" border="0" alt="socan" src="https://www.socan.ca/files/images/SOCAN-logo-news-item-560-EN.png"/></a>
         
         <a href="mapquest.com">
-        <img class="twitter" border="0" src="http://www.blogcdn.com/blog.aol.com/media/2012/10/mapquestlogolarge.png"/></a>
+        <img class="mapquest" border="0" src="http://www.blogcdn.com/blog.aol.com/media/2012/10/mapquestlogolarge.png"/></a>
+
+        <a href="pubnub.com">
+        <img class="pubnub" border="0" src="https://brandfolder.com/pubnub/logo/pubnub-primary-logo.png"/></a>
       </div>​
 
     </div>

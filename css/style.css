@@ -151,9 +151,9 @@ input[type=submit]:hover {
     background-color: #ad0000;
 }
 
-.twitter, .socanlogo, .mapquest{
+.twitter, .socanlogo, .mapquest, .pubnub{
   float: left;
-  width: 33%;
+  width: 25%;
   padding: 10px;
 }
 
