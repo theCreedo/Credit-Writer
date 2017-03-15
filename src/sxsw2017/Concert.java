@@ -86,6 +86,7 @@ public class Concert {
 
 		pubNubConnectivity();
 
+		System.out.println(setList.toString());
 
 		//		System.out.println("HEREEEE");
 
@@ -116,9 +117,9 @@ public class Concert {
 
 			//TODO send in the state and state to mapquest api
 			//TODO set latitude and longitude to the return from the getLat and getLong methods
+			addedToList = false;
 			for(Status tweet: tweets){
 				
-				addedToList = false;
 				check = false;
 
 				String[] location = tweet.getUser().getLocation().split(", ");
@@ -162,6 +163,12 @@ public class Concert {
 						addedToList = true;
 						setList.add(song);
 					}
+					
+					if(!setList.isEmpty()){
+						if(addedToList){
+							sendMessageToServer();
+						}
+					}
 				}
 			}
 		}
@@ -173,14 +180,10 @@ public class Concert {
 
 		System.out.println(setList.toString());
 
-		if(!setList.isEmpty()){
-			sendMessageToWebsite();
-			if(addedToList){
-			sendMessageToServer();
 			
-			sendMessageToWebsite();
-			}
-		}
+			//sendMessageToWebsite();
+		//	}
+		
 	}
 
 	private static void sendMessageToServer() throws JSONException {
@@ -238,8 +241,10 @@ public class Concert {
 		String FILE_PATH_NAME = "C:/Users/Sanat/Documents/sharkkitty.jpg";
 		JsonObject JSON_POST_REQUEST = buildJson("John Doe", city, state, setList);
 		String FILE_NAME = "sharkkitty.jpg";
+		String JSON_PATH_NAME = "/Users/Sanat/Documents/Github/sxsw2017/call.json";
 		String charset = "UTF-8";
 		File uploadFile = new File(FILE_PATH_NAME);
+		File uploadJSON = new File(JSON_PATH_NAME);
 		String requestURL = "https://api.socan.ca/sandbox/SubmitNLMP?apiKey=l7xx50540a4a671342868a65f8a8f4a71d7a";
 
 		try {
@@ -405,7 +410,7 @@ public class Concert {
 		value.addProperty("PROMOTER_POSTAL_CODE", promoter_postal_code);
 		value.addProperty("PROMOTER_COUNTRY", promoter_country);
 		value.addProperty("PROMOTER_TELEPHONE", promoter_telephone);
-		value.addProperty("compositions", arrayBuilder.build().toString());    		  
+		value.addProperty("compositions", "[{\"ORIGINAL_TITLE\":\"SOCAN\",\"COMPOSER\":\"John Doe\"},{\"ORIGINAL_TITLE\":\"HACKATHON\",\"COMPOSER\":\"John Doe\"}]");    		  
 		//				value.build();
 		return value;
 	}

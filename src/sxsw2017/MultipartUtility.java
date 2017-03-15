@@ -3,11 +3,14 @@ package sxsw2017;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -86,11 +89,39 @@ class MultipartUtility {
         writer.append("Content-Type: application/json").append(
                 LINE_FEED);
         writer.append(LINE_FEED);
-        System.out.println(value.toString().replaceAll("\\\\", ""));
+//        System.out.println(value.toString().replaceAll("\\\\", ""));
+//        try{
+//            PrintWriter writer = new PrintWriter("/Users/Sanat/Documents/GitHub/sxsw2017/call.json", "UTF-8");
+//            writer.append(value.toString() + ";application/json");
+//            writer.close();
+//            replaceInFile(new File("/Users/Sanat/Documents/Github/sxsw2017/call.json"));
+//        } catch (IOException e) {
+//           // do something
+//        }
         writer.printf("%s",value.toString()).append(LINE_FEED);
         writer.flush();
     }
 
+    public void replaceInFile(File file) throws IOException {
+
+        File tempFile = File.createTempFile("buffer", ".tmp");
+        FileWriter fw = new FileWriter(tempFile);
+
+        Reader fr = new FileReader(file);
+        BufferedReader br = new BufferedReader(fr);
+
+        while(br.ready()) {
+            fw.write(br.readLine().replaceAll("\\\\", "") + "\n");
+        }
+
+        fw.close();
+        br.close();
+        fr.close();
+
+        // Finally replace the original file.
+        tempFile.renameTo(file);
+    }
+    
     /**
      * Adds a upload file section to the request
      * @param fieldName name attribute in <input type="file" name="..." />
