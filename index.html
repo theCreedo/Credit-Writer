@@ -129,7 +129,7 @@ function getInfo(){
       },
       message: function(message) {
         console.log(message);
-        $("#musicTable ul").append('<li>' + message.message.artist + ' ' + message.message.setlist + ' ' + message.message.song + '</li>');
+        $("#musicTable ul").append('<li>Artist: ' + message.message.artist + ' Set List: ' + message.message.setlist + ' City: ' + message.message.city + '</li>');
           // handle message
       },
       presence: function(presenceEvent) {
