@@ -12,6 +12,7 @@ function addTable() {
     heading[2] = "Song"
 
     var stock = new Array()
+    stock[0] = new Array("ACDC", "Austin", "Hello")
 
     //TABLE COLUMNS
     var tr = document.createElement('TR');
