@@ -31,14 +31,19 @@ import com.pubnub.api.models.consumer.pubsub.PNPresenceEventResult;
 import java.net.*;
 import java.io.*;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
 public class Concert {
 	/*	final static AccessToken accessToken = new AccessToken("789951371428495360-7aljagVXHXXVySZ94BQNHzG0ZVr2JDI"
 			, "dxq40x9zV4gqUHxZflfqT975pEFpUxardfyRinuxi96S7");*/
 	//final static Twitter twitter = new TwitterFactory().getInstance(accessToken);
 	//final static Twitter twitter = new TwitterFactory().getInstance(accessToken);
-	//private static String city = "";
-	//private static String state = "";
-	//private static String hashtag = "";
+	private static String city = "";
+	private static String state = "";
+	private static String hashtag = "";
 	private static double latitude = 0;
 	private static double longitude = 0;
 	static ConfigurationBuilder builder = new ConfigurationBuilder();
@@ -80,31 +85,7 @@ public class Concert {
 		
 		
 				
-/*		String FILE_PATH_NAME = "";
-    	String JSON_POST_REQUEST = "";
-    	String FILE_NAME = "";
-        String charset = "UTF-8";
-        File uploadFile = new File(FILE_PATH_NAME);
-        String requestURL = "https://api.socan.ca/sandbox/SubmitNLMP?apiKey=l7xx50540a4a671342868a65f8a8f4a71d7a";
-
-        try {
-            MultipartUtility multipart = new MultipartUtility(requestURL, charset);
-
-            System.out.println("RIP");
-
-            multipart.addJsonField("nlmp", JSON_POST_REQUEST);
-            multipart.addFilePart("file", uploadFile);
-            multipart.addFormField("fileName", FILE_NAME);
-
-            List<String> response = multipart.finish();
-
-            System.out.println("SERVER REPLIED:");
-
-            for (String line : response) {
-                System.out.println(line);
-            }
-        } catch (IOException ex) {
-            System.err.println(ex);
+/*		
         }*/
 	}
 
@@ -180,9 +161,60 @@ public class Concert {
 		}
 		
 		System.out.println(setList.toString());
+		
+		if(!setList.isEmpty())
+			sendMessageToWebsite();
 
 	}
 	
+	private static void sendMessageToWebsite() {
+		// TODO Auto-generated method stub
+		TrustManager[] trustAllCerts = new TrustManager[]{
+                new X509TrustManager() {
+                        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                                return null;
+                        }
+                        public void checkClientTrusted(
+                                java.security.cert.X509Certificate[] certs, String authType) {
+                        }
+                        public void checkServerTrusted(
+                                java.security.cert.X509Certificate[] certs, String authType) {
+                        }
+                }};
+
+        try {
+                SSLContext sc = SSLContext.getInstance("SSL");
+                sc.init(null, trustAllCerts, new java.security.SecureRandom());
+                HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+        } catch (Exception e) {
+        }
+		String FILE_PATH_NAME = "C:/Users/Sanat/Documents/sharkkitty.jpg";
+    	String JSON_POST_REQUEST = "";
+    	String FILE_NAME = "";
+        String charset = "UTF-8";
+        File uploadFile = new File(FILE_PATH_NAME);
+        String requestURL = "https://api.socan.ca/sandbox/SubmitNLMP?apiKey=l7xx50540a4a671342868a65f8a8f4a71d7a";
+
+        try {
+            MultipartUtility multipart = new MultipartUtility(requestURL, charset);
+
+            System.out.println("RIP");
+
+            multipart.addJsonField("nlmp", JSON_POST_REQUEST);
+            multipart.addFilePart("file", uploadFile);
+            multipart.addFormField("fileName", FILE_NAME);
+
+            List<String> response = multipart.finish();
+
+            System.out.println("SERVER REPLIED:");
+
+            for (String line : response) {
+                System.out.println(line);
+            }
+        } catch (IOException ex) {
+            System.err.println(ex);
+        }
+	}
 	private static void pubNubConnectivity() {
 		// TODO Auto-generated method stub
 		PNConfiguration pnConfiguration = new PNConfiguration();
@@ -200,9 +232,9 @@ public class Concert {
 			public void message(PubNub arg0, PNMessageResult arg1) {
 				// TODO Auto-generated method stub
 				JsonElement message = arg1.getMessage();
-				String state = message.getAsJsonObject().get("state").getAsString().toLowerCase();
-				String city = message.getAsJsonObject().get("city").getAsString().toLowerCase();
-				String hashtag = message.getAsJsonObject().get("hashtag").getAsString().toLowerCase();
+				 state = message.getAsJsonObject().get("state").getAsString().toLowerCase();
+				 city = message.getAsJsonObject().get("city").getAsString().toLowerCase();
+				 hashtag = message.getAsJsonObject().get("hashtag").getAsString().toLowerCase();
 				
 				fetchTwitter(hashtag, city, state);
 			}
