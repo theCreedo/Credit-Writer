@@ -16,6 +16,13 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Lily/Documents/sxsw2017/javax.json-1.0.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sanat/Downloads/twitter4j-4.0.4/lib/twitter4j-async-4.0.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sanat/Downloads/twitter4j-4.0.4/lib/twitter4j-core-4.0.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sanat/Downloads/twitter4j-4.0.4/lib/twitter4j-examples-4.0.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sanat/Downloads/twitter4j-4.0.4/lib/twitter4j-media-support-4.0.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sanat/Downloads/twitter4j-4.0.4/lib/twitter4j-stream-4.0.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sanat/Downloads/httpclient-4.2.jar/httpclient-4.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sanat/Downloads/java-json.jar/java-json.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sanat/Documents/GitHub/sxsw2017/javax.json-1.0.4.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
