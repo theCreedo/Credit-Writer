@@ -1,3 +1,9 @@
+## Links
+- https://devpost.com/software/credit-writer
+
+## Pitch
+Millions of dollars in royalties are lost. We provide credit back to the composers by utilizing concert crowds!
+
 ## Inspiration
 In the music industry, songwriters, composers, and music publishers may have their royalties ignored or delayed for months due to poor management and reporting. As of right now, only 30% of writers are actually credited, and even these writers have a delayed response in submissions of songs played, causing millions of dollars to be lost for over 90% of local artists. Especially with venues, it is very hard for hosts of a venue to gather the set list of 100s of artists they facilitate at a given concert or festival. With this very pressing problem, we've created Credit Writer, a monumental, user-friendly web app interface to battle against this pressing problem of lost credit.
 
@@ -21,3 +27,6 @@ Together, we learned how to make ajax calls, troubleshoot APIS, and resolve issu
 ## What's next for Credit Writer
 In the future, we hope to format the data better to send more accurate set lists to SOCAN. Using noise reducing algorithms, we can easily remove data that isn't relevant to the venue's festivals/concerts
 
+## Awards
+- Awarded "Best Use of SOCAN API" at SXSW Hackathon 2017
+- Awarded "Best Use of MapQuest" at SXSW Hackathon 2017
