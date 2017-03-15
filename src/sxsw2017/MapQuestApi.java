@@ -64,7 +64,7 @@ public class MapQuestApi {
 			    lat = Double.parseDouble(responseBody.substring(latIndexBeg, latIndexEnd));
 			    lon = Double.parseDouble(responseBody.substring(lonIndexBeg, lonIndexEnd));
 			    
-			    System.out.println(responseBody+"\n");
+			//    System.out.println(responseBody+"\n");
 			}
 		    
 		  } catch (Exception e) {
