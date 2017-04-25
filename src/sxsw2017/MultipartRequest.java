@@ -19,7 +19,7 @@ public class MultipartRequest {
 
             System.out.println("RIP");
 
-            multipart.addJsonField("nlmp", JSON_POST_REQUEST);
+   //         multipart.addJsonField("nlmp", JSON_POST_REQUEST);
             multipart.addFilePart("file", uploadFile);
             multipart.addFormField("fileName", FILE_NAME);
 

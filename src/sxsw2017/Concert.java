@@ -247,6 +247,7 @@ public class Concert {
 		File uploadJSON = new File(JSON_PATH_NAME);
 		String requestURL = "https://api.socan.ca/sandbox/SubmitNLMP?apiKey=l7xx50540a4a671342868a65f8a8f4a71d7a";
 
+		/* Multipart request starting */
 		try {
 			MultipartUtility multipart = new MultipartUtility(requestURL, charset);
 
@@ -269,7 +270,8 @@ public class Concert {
 		}
 	}
 	private static void pubNubConnectivity() {
-		// TODO Auto-generated method stub
+		/* Currently we created a general stub...need to update this */
+		
 		PNConfiguration pnConfiguration = new PNConfiguration();
 		// subscribeKey from admin panel
 		pnConfiguration.setSubscribeKey("sub-c-0a7113d8-095b-11e7-b09b-0619f8945a4f"); // required
